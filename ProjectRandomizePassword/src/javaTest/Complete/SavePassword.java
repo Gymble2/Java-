@@ -1,10 +1,6 @@
 package javaTest.Complete;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class SavePassword extends RandomizePassword {
@@ -67,29 +63,57 @@ public class SavePassword extends RandomizePassword {
         }
     }
 
+    public void replaceLineEmpty(String nameFile,String lineSub){
+        try{
+            File inputFile = new File(nameFile);
+            File tempFile = new File("temp.txt");
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
+
+            String lineToRemove = "";
+            String currentLine;
+            while ((currentLine = br.readLine()) != ""){
+                if(currentLine.trim().equals(lineToRemove)){
+                    bw.write(lineSub+System.getProperty("line.separetor")+"\n");
+                    break;
+                }
+            }
+            br.close();
+            bw.close();
+
+            inputFile.delete();
+            tempFile.renameTo(inputFile);
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public  boolean readTxt(String nameFile, String password){
         try {
             FileReader fr = new FileReader(nameFile);
             BufferedReader br = new BufferedReader(fr);
-            FileWriter fw = new FileWriter(nameFile,true);
-            BufferedWriter bw = new BufferedWriter(fw);
 
-            String line;
+            String linha = br.readLine();
             String [] sup;
-            while((line = br.readLine()) != null && found) {
+            if(Objects.equals(linha,"")){
+                replaceLineEmpty(nameFile, password);
+            }
+            while(br.readLine()!= "" && found) {
                 //verifica se line esta empty
-                //assert line != null;
-                sup = line.split(";");
+                sup = br.readLine().split(";");
 
                 if (Objects.equals(sup[1], password)) {
                     return found;
                 }
+                fr.close();
+                br.close();
             }
         }catch (IndexOutOfBoundsException indexOutOfBoundsException){
-            System.out.println("Erros de index possiveis erros (Primeira linha vazia/segunda posição de informação acessada vazia)");
+            System.out.println("Erros de index possiveis erros (Primeira linha vazia/segunda " +
+                    "posição de informação acessada vazia)");
             return found = false;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            replaceLineEmpty(nameFile, password);
         }
         return found;
     }

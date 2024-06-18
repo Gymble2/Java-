@@ -18,7 +18,7 @@ public class Main extends SavePassword{
             password = passwordGenerator();
             System.out.println(password);
             System.out.println("------------------------");
-            save.readTxt(nameFile,password);
+            save.readTxt(nameFile,save.formatText(password,user2));
             if(save.readTxt(nameFile,password)){
                 save.WriteTxt(save.formatText(password,user2),nameFile);
             }

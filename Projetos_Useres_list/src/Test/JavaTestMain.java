@@ -20,11 +20,11 @@ public class JavaTestMain extends Infos {
 
         //Get infos for format
         p.Message();
-        System.out.printf("Write your cpf: ");
+        System.out.print("Write your cpf: ");
         String data_cpf = scanner.next();
         scanner.nextLine(); //Broke and exclói the line how is occupied for scanner.next()
         p.Message();
-        System.out.printf("Write your name: ");
+        System.out.print("Write your name: ");
         String Name = scanner.nextLine();
 
         //call constructor from object "p" for formatting and transformation of data´s
