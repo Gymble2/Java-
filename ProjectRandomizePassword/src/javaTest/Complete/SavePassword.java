@@ -118,7 +118,7 @@ public class SavePassword extends RandomizePassword {
         return found;
     }
 
-    public String readTxt(){
+    public String /readTxt(){
         return readTxt();
     }
 }
